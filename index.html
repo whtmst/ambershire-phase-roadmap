@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMBERSHIRE ROADMAP - Turtle WoW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <style>        
+        :root{
+            --amber-100: #f5c62c;
+            --amber-200: #f8844d;
+            --brown-900: #0f0b08;
+            --bg-deep: rgba(15,11,8,0.6);
+            --card-overlay: rgba(18,10,6,0.78);
+            --muted-text: #e7d6c6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'El Messiri', 'Noto Color Emoji', 'Times New Roman', serif;
+            background: linear-gradient(180deg,#0b0604 0%, #2a1007 55%, #2a0f06 100%);
+            color: var(--muted-text);
+            min-height: 100vh;
+            padding: 20px;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px 18px 20px;
+            background: linear-gradient(180deg, rgba(255,214,140,0.06), rgba(0,0,0,0.15));
+            border-radius: 10px;
+            border-top: 1px solid rgba(255,214,140,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        header::after{
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -5px;
+            width: 75%;
+            height: 10px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+        }
+
+        h1 {
+            font-family: 'El Messiri', 'Noto Color Emoji', 'Times New Roman', serif;
+            font-size: 3.75em;
+            margin-bottom: 0px;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-family: 'El Messiri', 'Noto Color Emoji', 'Times New Roman', serif;
+            font-size: 1em;
+            color: var(--amber-200);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-top: 0px;
+            opacity: 0.95;
+        }
+
+        .language-switcher {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            border: 1px solid rgba(255,214,140,0.2);
+            padding: 8px 12px 5px 12px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .lang-button {
+            cursor: pointer;
+            font-family: 'El Messiri', 'Noto Color Emoji', 'Times New Roman', serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0;
+            border: none;
+            background: none;
+            color: rgba(220,190,140,0.6);
+            transition: color 0.2s;
+        }
+
+        .lang-button.active {
+            color: var(--amber-100);
+            text-shadow: 0 0 8px rgba(255,180,50,0.6);
+        }
+        .lang-button:hover:not(.active) {
+            color: var(--amber-200);
+        }
+
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 36px 0 40px 0;
+        }
+
+        .phase-card {
+            font-family: 'El Messiri', 'Noto Color Emoji', 'Times New Roman', serif;
+            background: linear-gradient(180deg, rgba(10,6,4,0.25), rgba(20,12,8,0.75));
+            border-radius: 10px;
+            padding: 22px;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            position: relative;
+            overflow: hidden;
+            color: var(--muted-text);
+            backdrop-filter: blur(0px);
+        }
+
+        .phase-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.75));
+            z-index: 0;
+            backdrop-filter: blur(5px);
+            opacity: 0; /* По умолчанию скрыто */
+            transition: opacity 0.3s ease;
+        }
+
+        /* Показываем размытие только для будущих фаз */
+        .phase-card.future::after {
+            opacity: 1;
+        }
+
+        .phase-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0px;
+            background: var(--brown-900);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 40px rgba(20,8,4,0.6);
+        }
+
+        .phase-card:hover::before {
+            opacity: 1;
+        }
+
+        .phase-card.current {
+            border-radius: 10px;
+            box-shadow: 0 32px 80px rgba(210,120,30,0.12);
+            backdrop-filter: blur(0px);
+        }
+
+        .phase-card.current::after {
+            background: linear-gradient(180deg, rgba(30,16,10,0.05), rgba(20,10,6,0.5));
+            backdrop-filter: blur(0px);
+        }
+
+        .phase-card.current::before {
+            opacity: 1;
+            height: 10px;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            animation: shimmer 5s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-120%); }
+            100% { transform: translateX(120%); }
+        }
+
+        .phase-header {
+            text-align: center;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,214,140,0.25);
+        }
+
+        .phase-number {
+            font-size: 1em;
+            color: rgba(220,190,140,0.9);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .phase-date {
+            font-size: 1.75em;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .current-badge {
+            display: inline-block;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            color: var(--brown-900);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: 700;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(200,120,40,0.12);
+        }
+
+        .content-section {
+            margin: 16px 0;
+        }
+
+        .content-title {
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1em;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .content-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #e9dac8;
+            font-size: 0.95em;
+        }
+
+        .content-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            background: linear-gradient(180deg, var(--amber-100), var(--amber-200));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-note a {
+            color: var(--amber-100);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .footer-note a:hover {
+            color: var(--amber-200);
+            border-bottom-color: var(--amber-200);
+        }
+
+        .note {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(210,140,60,0.06), rgba(0,0,0,0.12));
+            border: 1px solid rgba(210,140,60,0.06);
+            border-radius: 8px;
+            color: rgba(220,190,150,0.95);
+            font-style: italic;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            header::after{ display:none; }
+            
+            .language-switcher {
+                top: 8px;
+                right: 8px;
+                transform: translateY(0);
+                padding: 4px 8px;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="language-switcher">
+                <button class="lang-button" data-lang="en">EN</button>
+                <button class="lang-button active" data-lang="ru">RU</button>
+            </div>
+            <h1 id="header-title">AMBERSHIRE ROADMAP</h1>
+            <div class="subtitle" id="header-subtitle">Phase Schedule & Content Overview</div>
+        </header>
+
+        <div class="timeline" id="timeline"></div>
+
+        <div class="note footer-note" id="footer-note">
+            Made for Turtle WoW community with love by <a href="https://github.com/whtmst" target="_blank" rel="noopener noreferrer">Wht Mst.</a>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Структура контента ---
+        // Английский контент
+        const contentEN = {
+            header: "AMBERSHIRE ROADMAP",
+            subtitle: "Phase Schedule & Content Overview",
+            currentBadge: "CURRENT PHASE",
+            note: "Made for Turtle WoW community with love by <a href=\"https://github.com/whtmst\" target=\"_blank\" rel=\"noopener noreferrer\">Wht Mst.</a>",
+            sections: {
+                dungeons: "Dungeons",
+                raids: "Raids",
+                worldBosses: "World Bosses",
+                pvp: "PvP",
+                worldEvents: "World Events",
+                note: "More will be added as development continues. Refer to our roadmap for more info."
+            },
+            phasePrefix: "Phase",
+            phases: [
+                {
+                    number: 1,
+                    date: "August 17th",
+                    realDate: new Date(2025, 7, 17),
+                    content: {
+                        dungeons: [
+                            "Upper Blackrock Spire", "Stratholme", "Scholomance", "Dire Maul", "Blackrock Depths", 
+                            "Caverns of Time", "Karazhan Crypts", "Stormwind Vault", "Hateforge Quarry"
+                        ],
+                        pvp: ["All Battlegrounds", "Rank 1-11 PvP Rewards"]
+                    }
+                },
+                {
+                    number: 2,
+                    date: "September 26th",
+                    realDate: new Date(2025, 8, 26),
+                    content: {
+                        raids: ["Onyxia", "Molten Core"],
+                        worldBosses: ["Concavius"],
+                        pvp: ["Ranked Arenas"]
+                    }
+                },
+                {
+                    number: 3,
+                    date: "November 21st",
+                    realDate: new Date(2025, 10, 21),
+                    content: {
+                        raids: ["Lower Karazhan"],
+                        worldBosses: ["Dark Reaver of Karazhan", "Kazzak", "Azuregos", "Dragons of Nightmare"]
+                    }
+                },
+                {
+                    number: 4,
+                    date: "January 2nd",
+                    realDate: new Date(2026, 0, 2),
+                    content: {
+                        raids: ["Blackwing Lair"],
+                        pvp: ["Rank 12-14 PvP Rewards", "Blood Ring Reputation Rewards"]
+                    }
+                },
+                {
+                    number: 5,
+                    date: "February 27th",
+                    realDate: new Date(2026, 1, 27),
+                    content: {
+                        raids: ["Emerald Sanctum", "Zul'Gurub"],
+                        worldBosses: ["Clackora"]
+                    }
+                },
+                {
+                    number: 6,
+                    date: "April 10th",
+                    realDate: new Date(2026, 3, 10),
+                    content: {
+                        raids: ["Ruins of Ahn'Qiraj", "Temple of Ahn'Qiraj"],
+                        worldBosses: ["Ostarius"],
+                        worldEvents: ["Gates of Ahn'Qiraj"]
+                    }
+                },
+                {
+                    number: 7,
+                    date: "July 3rd",
+                    realDate: new Date(2026, 6, 3),
+                    content: {
+                        raids: ["Naxxramas"],
+                        worldBosses: ["Nerubian Overseer"],
+                        worldEvents: ["Scourge Invasion"]
+                    }
+                },
+                {
+                    number: 8,
+                    date: "September 25th",
+                    realDate: new Date(2026, 8, 25),
+                    content: {
+                        raids: ["Tower of Karazhan"],
+                        note: "More will be added as development continues. Refer to our roadmap for more info."
+                    }
+                }
+            ]
+        };
+
+        // Русский контент (перевод)
+        const contentRU = {
+            header: "ДОРОЖНАЯ КАРТА ЭМБЕРШИРА",
+            subtitle: "Обзор фаз и контента",
+            currentBadge: "ТЕКУЩАЯ ФАЗА",
+            note: "Сделано с любовью для сообщества Turtle WoW от <a href=\"https://github.com/whtmst\" target=\"_blank\" rel=\"noopener noreferrer\">Wht Mst.</a>",
+            sections: {
+                dungeons: "Подземелья",
+                raids: "Рейды",
+                worldBosses: "Мировые боссы",
+                pvp: "PvP",
+                worldEvents: "Мировые события",
+                // Перевод заметки для Phase 8
+                note: "Будет добавлено больше по мере продолжения разработки. Больше информации в нашей дорожной карте."
+            },
+            // Массив фаз остается тем же, но меняем даты на русский формат и переводим контент
+            phasePrefix: "Фаза",
+            phases: [
+                {
+                    number: 1,
+                    date: "17 Августа",
+                    realDate: new Date(2025, 7, 17),
+                    content: {
+                        dungeons: [
+                            "Верхняя часть Пика Черной горы", "Стратхольм", "Некроситет", "Забытый город", "Глубины Черной горы",
+                            "Пещеры Времени", "Склепы Каражана", "Хранилище Штормграда", "Карьер Ненависти"
+                        ],
+                        pvp: ["Все поля боя", "Награды PvP Ранга 1-11"]
+                    }
+                },
+                {
+                    number: 2,
+                    date: "26 Сентября",
+                    realDate: new Date(2025, 8, 26),
+                    content: {
+                        raids: ["Ониксия", "Огненные Недра"],
+                        worldBosses: ["Конкавий"],
+                        pvp: ["Рейтинговые арены"]
+                    }
+                },
+                {
+                    number: 3,
+                    date: "21 Ноября",
+                    realDate: new Date(2025, 10, 21),
+                    content: {
+                        raids: ["Нижняя часть Каражана"],
+                        worldBosses: ["Темный Жнец Каражана", "Каззак", "Азурегос", "Драконы Кошмара"]
+                    }
+                },
+                {
+                    number: 4,
+                    date: "2 Января",
+                    realDate: new Date(2026, 0, 2),
+                    content: {
+                        raids: ["Логово Крыла Тьмы"],
+                        pvp: ["Награды PvP Ранга 12-14", "Награды Репутации Кровавого Кольца"]
+                    }
+                },
+                {
+                    number: 5,
+                    date: "27 Февраля",
+                    realDate: new Date(2026, 1, 27),
+                    content: {
+                        raids: ["Изумрудное Святилище", "Зул'Гуруб"],
+                        worldBosses: ["Клакора"]
+                    }
+                },
+                {
+                    number: 6,
+                    date: "10 Апреля",
+                    realDate: new Date(2026, 3, 10),
+                    content: {
+                        raids: ["Руины Ан'Киража", "Храм Ан'Киража"],
+                        worldBosses: ["Остарий"],
+                        worldEvents: ["Врата Ан'Киража"]
+                    }
+                },
+                {
+                    number: 7,
+                    date: "3 Июля",
+                    realDate: new Date(2026, 6, 3),
+                    content: {
+                        raids: ["Наксрамас"],
+                        worldBosses: ["Нерубианский Надсмотрщик"],
+                        worldEvents: ["Вторжение Плети"]
+                    }
+                },
+                {
+                    number: 8,
+                    date: "25 Сентября",
+                    realDate: new Date(2026, 8, 25),
+                    content: {
+                        raids: ["Башня Каражана"],
+                        note: "Будет добавлено больше по мере продолжения разработки. Больше информации в нашей дорожной карте."
+                    }
+                }
+            ]
+        };
+
+        const allContent = { en: contentEN, ru: contentRU };
+        const timelineElement = document.getElementById('timeline');
+        
+        // Определяем текущую фазу (зависит только от даты, а не от языка)
+        const today = new Date();
+        let currentPhaseNumber = 1;
+
+        // Используем realDate из любой структуры (они одинаковы)
+        for (let i = contentEN.phases.length - 1; i >= 0; i--) {
+            if (today >= contentEN.phases[i].realDate) {
+                currentPhaseNumber = contentEN.phases[i].number;
+                break;
+            }
+        }
+        
+        /**
+         * Генерирует и вставляет HTML для фаз на основе выбранного языка.
+         * @param {string} lang - 'en' или 'ru'
+         */
+        function renderTimeline(lang) {
+            const data = allContent[lang];
+            const sections = data.sections;
+            
+            // 1. Очищаем контейнер
+            timelineElement.innerHTML = ''; 
+
+            // 2. Рендерим заголовок и подвал
+            document.getElementById('header-title').textContent = data.header;
+            document.getElementById('header-subtitle').textContent = data.subtitle;
+            document.getElementById('footer-note').innerHTML = data.note;
+            document.documentElement.lang = lang;
+            document.title = `${data.header} - Turtle WoW`;
+
+            // 3. Рендерим карточки фаз
+            data.phases.forEach(phase => {
+                const card = document.createElement('div');
+                const isCurrent = phase.number === currentPhaseNumber;
+                const isFuture = today < phase.realDate;
+                card.className = `phase-card ${isCurrent ? 'current' : ''} ${isFuture ? 'future' : ''}`;
+
+                // Установка фонового изображения
+                card.style.backgroundImage = `url('img/phase_bg/phase-${phase.number}.jpg')`;
+                card.style.backgroundSize = 'cover';
+                card.style.backgroundPosition = 'center';
+
+                let html = `
+                    <div class="phase-header">
+                        <div class="phase-number">${data.phasePrefix} ${phase.number}</div>
+                        <div class="phase-date">${phase.date}</div>
+                        ${isCurrent ? `<div class="current-badge">${data.currentBadge}</div>` : ''}
+                    </div>
+                `;
+                
+                // Функция для генерации секции контента
+                const generateSection = (key, title, list) => {
+                    if (!list) return '';
+                    return `
+                        <div class="content-section">
+                            <div class="content-title">${title}</div>
+                            <ul class="content-list">
+                                ${list.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                };
+
+                // Добавление секций
+                html += generateSection('dungeons', sections.dungeons, phase.content.dungeons);
+                html += generateSection('raids', sections.raids, phase.content.raids);
+                html += generateSection('worldBosses', sections.worldBosses, phase.content.worldBosses);
+                html += generateSection('pvp', sections.pvp, phase.content.pvp);
+                html += generateSection('worldEvents', sections.worldEvents, phase.content.worldEvents);
+
+                // Добавление специфической заметки для Phase 8
+                if (phase.content.note) {
+                    // Используем переведенную заметку из sections, если она есть, или из фазы (для Phase 8)
+                    const noteText = phase.content.note === contentEN.sections.note ? sections.note : phase.content.note;
+                    html += `
+                        <div class="content-section">
+                            <div style="color: #c9a86a; font-style: italic; font-size: 0.85em; margin-top: 10px;">
+                                ${noteText}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = html;
+                timelineElement.appendChild(card);
+            });
+            
+            // Обновляем состояние кнопок
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.lang === lang) {
+                    button.classList.add('active');
+                    // Сохраняем в LocalStorage для запоминания выбора
+                    localStorage.setItem('preferredLang', lang); 
+                }
+            });
+        }
+        
+        // --- 2. Логика переключения ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const switcher = document.querySelector('.language-switcher');
+            
+            // Получаем язык из LocalStorage или устанавливаем по умолчанию (ru)
+            const initialLang = localStorage.getItem('preferredLang') || 'ru'; 
+            
+            // Инициализация
+            renderTimeline(initialLang);
+
+            switcher.addEventListener('click', (event) => {
+                if (event.target.classList.contains('lang-button')) {
+                    const newLang = event.target.dataset.lang;
+                    if (newLang !== document.documentElement.lang) {
+                        renderTimeline(newLang);
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        (function () {
+            const MAX_TRIES = 200; 
+            function checkImage(url) {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = url + '?_=' + Date.now();
+                });
+            }
+            async function detectAndSetBackground() {
+                const urls = [];
+                for (let i = 1; i <= MAX_TRIES; i++) {
+                    const url = `img/bg/bg-${i}.jpg`;
+                    const ok = await checkImage(url);
+                    if (ok) {
+                        urls.push(url);
+                    } else {
+                        break;
+                    }
+                }
+
+                if (urls.length === 0) {
+                    return;
+                }
+
+                const pick = urls[Math.floor(Math.random() * urls.length)];
+                const overlay = 'linear-gradient(135deg, rgba(26,26,26,0.6) 0%, rgba(45,24,16,0.6) 100%)';
+                document.body.style.backgroundImage = `${overlay}, url("${pick}")`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundAttachment = 'fixed';
+            }
+            detectAndSetBackground().catch(err => {
+                // console.warn('bg loader error', err);
+            });
+        })();
+    </script>
+</body>
+</html>
