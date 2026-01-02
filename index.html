@@ -351,8 +351,98 @@
     </div>
 
     <script>
-        // --- 1. Структура контента ---
-        // Английский контент
+        // =====================================================================
+        // === НАСТРОЙКИ (CONFIG) - ИЗМЕНЯТЬ ДАТЫ И НАЗВАНИЯ ЗДЕСЬ ===========
+        // =====================================================================
+        
+        // 1. Названия префиксов для фаз
+        const PREFIX_CONFIG = {
+            en: "Phase",  // Как слово "Phase" пишется на английском
+            ru: "Фаза"    // Как слово "Фаза" пишется на русском
+        };
+
+        // 2. Настройка дат, фаз и картинок
+        // dateObj: формат new Date(Год, Месяц-1, День). ВНИМАНИЕ: Январь = 0, Февраль = 1, Май = 4 и т.д.
+        // imgId: Номер картинки в папке img/phase_bg/phase-{N}.jpg
+        const PHASES_CONFIG = [
+            {   // Фаза 1
+                id: 1,
+                dateObj: new Date(2025, 7, 17), 
+                dateEN: "August 17th",
+                dateRU: "17 Августа",
+                imgId: 1
+            },
+            {   // Фаза 2
+                id: 2,
+                dateObj: new Date(2025, 8, 26), 
+                dateEN: "September 26th",
+                dateRU: "26 Сентября",
+                imgId: 2
+            },
+            {   // Фаза 3
+                id: 3,
+                dateObj: new Date(2025, 10, 21), 
+                dateEN: "November 21st",
+                dateRU: "21 Ноября",
+                imgId: 3
+            },
+            {   // Фаза 4
+                id: 4,
+                dateObj: new Date(2026, 0, 2), 
+                dateEN: "January 2nd",
+                dateRU: "2 Января",
+                imgId: 4
+            },
+            {   // Фаза 4.5
+                id: 4.5,
+                // Ставим техническую дату для сортировки, но выводим прочерк
+                dateObj: new Date(2026, 1, 2), 
+                dateEN: "—", 
+                dateRU: "—",
+                imgId: 4 // Берем ту же картинку, что у 4
+            },
+            {   // Фаза 5
+                id: 5,
+                dateObj: new Date(2026, 1, 27), 
+                dateEN: "February 27th",
+                dateRU: "27 Февраля",
+                imgId: 5
+            },
+            {   // Фаза 6
+                id: 6,
+                dateObj: new Date(2026, 4, 9), // Май = 4
+                dateEN: "May 9th",
+                dateRU: "9 Мая",
+                imgId: 6
+            },
+            {   // Фаза 7
+                id: 7,
+                dateObj: new Date(2026, 6, 3), // Июль = 6
+                dateEN: "July 3rd",
+                dateRU: "3 Июля",
+                imgId: 7
+            },
+            {   // Фаза 8
+                id: 8,
+                dateObj: new Date(2026, 8, 25), 
+                dateEN: "September 25th",
+                dateRU: "25 Сентября",
+                imgId: 7 // Используем картинку 7, как в исходных данных
+            },
+            {   // Фаза 9
+                id: 9,
+                dateObj: new Date(2026, 11, 4), // Декабрь = 11
+                dateEN: "December 4th",
+                dateRU: "4 Декабря",
+                imgId: 8 // Используем картинку 8
+            }
+        ];
+
+        // =====================================================================
+        // === КОНЕЦ НАСТРОЕК ==================================================
+        // =====================================================================
+
+        // --- Структура контента ---
         const contentEN = {
             header: "AMBERSHIRE ROADMAP",
             subtitle: "Phase Schedule & Content Overview",
@@ -364,14 +454,12 @@
                 worldBosses: "World Bosses",
                 pvp: "PvP",
                 worldEvents: "World Events",
-                note: "More will be added as development continues. Refer to our roadmap for more info."
+                note: "More will be added as development continues."
             },
-            phasePrefix: "Phase",
+            phasePrefix: PREFIX_CONFIG.en,
             phases: [
                 {
-                    number: 1,
-                    date: "August 17th",
-                    realDate: new Date(2025, 7, 17),
+                    number: PHASES_CONFIG[0].id,
                     content: {
                         dungeons: [
                             "Upper Blackrock Spire", "Stratholme", "Scholomance", "Dire Maul", "Blackrock Depths", 
@@ -381,9 +469,7 @@
                     }
                 },
                 {
-                    number: 2,
-                    date: "September 26th",
-                    realDate: new Date(2025, 8, 26),
+                    number: PHASES_CONFIG[1].id,
                     content: {
                         raids: ["Onyxia", "Molten Core"],
                         worldBosses: ["Concavius"],
@@ -391,46 +477,48 @@
                     }
                 },
                 {
-                    number: 3,
-                    date: "November 21st",
-                    realDate: new Date(2025, 10, 21),
+                    number: PHASES_CONFIG[2].id,
                     content: {
                         raids: ["Lower Karazhan"],
                         worldBosses: ["Dark Reaver of Karazhan", "Kazzak", "Azuregos", "Dragons of Nightmare"]
                     }
                 },
                 {
-                    number: 4,
-                    date: "January 2nd",
-                    realDate: new Date(2026, 0, 2),
+                    number: PHASES_CONFIG[3].id,
+                    content: {
+                        raids: ["Zul'Gurub"]
+                    }
+                },
+                {
+                    number: PHASES_CONFIG[4].id, // Это 4.5
                     content: {
                         raids: ["Blackwing Lair"],
                         pvp: ["Rank 12-14 PvP Rewards", "Blood Ring Reputation Rewards"]
                     }
                 },
                 {
-                    number: 5,
-                    date: "February 27th",
-                    realDate: new Date(2026, 1, 27),
+                    number: PHASES_CONFIG[5].id,
                     content: {
-                        raids: ["Emerald Sanctum", "Zul'Gurub"],
+                        raids: ["Emerald Sanctum"],
                         worldBosses: ["Cla'ckora"]
                     }
                 },
                 {
-                    number: 6,
-                    date: "April 10th",
-                    realDate: new Date(2026, 3, 10),
+                    number: PHASES_CONFIG[6].id,
                     content: {
-                        raids: ["Ruins of Ahn'Qiraj", "Temple of Ahn'Qiraj"],
+                        raids: ["Ruins of Ahn'Qiraj (AQ20)", "Temple of Ahn'Qiraj (AQ40)"],
                         worldBosses: ["Ostarius"],
                         worldEvents: ["Gates of Ahn'Qiraj"]
                     }
                 },
                 {
-                    number: 7,
-                    date: "July 3rd",
-                    realDate: new Date(2026, 6, 3),
+                    number: PHASES_CONFIG[7].id,
+                    content: {
+                        raids: ["Timbermaw Hold"]
+                    }
+                },
+                {
+                    number: PHASES_CONFIG[8].id,
                     content: {
                         raids: ["Naxxramas"],
                         worldBosses: ["Nerubian Overseer"],
@@ -438,18 +526,14 @@
                     }
                 },
                 {
-                    number: 8,
-                    date: "September 25th",
-                    realDate: new Date(2026, 8, 25),
+                    number: PHASES_CONFIG[9].id,
                     content: {
-                        raids: ["Tower of Karazhan"],
-                        note: "More will be added as development continues. Refer to our roadmap for more info."
+                        raids: ["Tower of Karazhan"]
                     }
                 }
             ]
         };
 
-        // Русский контент (перевод)
         const contentRU = {
             header: "ДОРОЖНАЯ КАРТА ЭМБЕРШИРА",
             subtitle: "Обзор фаз и контента",
@@ -461,16 +545,12 @@
                 worldBosses: "Мировые боссы",
                 pvp: "PvP",
                 worldEvents: "Мировые события",
-                // Перевод заметки для Phase 8
-                note: "Будет добавлено больше по мере продолжения разработки. Больше информации в нашей дорожной карте."
+                note: "Будет добавлено больше по мере продолжения разработки."
             },
-            // Массив фаз остается тем же, но меняем даты на русский формат и переводим контент
-            phasePrefix: "Фаза",
+            phasePrefix: PREFIX_CONFIG.ru,
             phases: [
                 {
-                    number: 1,
-                    date: "17 Августа",
-                    realDate: new Date(2025, 7, 17),
+                    number: PHASES_CONFIG[0].id,
                     content: {
                         dungeons: [
                             "Верхняя часть Пика Черной горы", "Стратхольм", "Некроситет", "Забытый город", "Глубины Черной горы",
@@ -480,9 +560,7 @@
                     }
                 },
                 {
-                    number: 2,
-                    date: "26 Сентября",
-                    realDate: new Date(2025, 8, 26),
+                    number: PHASES_CONFIG[1].id,
                     content: {
                         raids: ["Логово Ониксии", "Огненные Недра"],
                         worldBosses: ["Конкавий"],
@@ -490,46 +568,48 @@
                     }
                 },
                 {
-                    number: 3,
-                    date: "21 Ноября",
-                    realDate: new Date(2025, 10, 21),
+                    number: PHASES_CONFIG[2].id,
                     content: {
                         raids: ["Нижняя часть Каражана"],
                         worldBosses: ["Темный Жнец Каражана", "Каззак", "Азурегос", "Драконы Кошмара"]
                     }
                 },
                 {
-                    number: 4,
-                    date: "2 Января",
-                    realDate: new Date(2026, 0, 2),
+                    number: PHASES_CONFIG[3].id,
+                    content: {
+                        raids: ["Зул'Гуруб"]
+                    }
+                },
+                {
+                    number: PHASES_CONFIG[4].id, // 4.5
                     content: {
                         raids: ["Логово Крыла Тьмы"],
                         pvp: ["Награды PvP Ранга 12-14", "Награды Репутации Кровавого Кольца"]
                     }
                 },
                 {
-                    number: 5,
-                    date: "27 Февраля",
-                    realDate: new Date(2026, 1, 27),
+                    number: PHASES_CONFIG[5].id,
                     content: {
-                        raids: ["Изумрудное Святилище", "Зул'Гуруб"],
+                        raids: ["Изумрудное Святилище"],
                         worldBosses: ["Кла'кора"]
                     }
                 },
                 {
-                    number: 6,
-                    date: "10 Апреля",
-                    realDate: new Date(2026, 3, 10),
+                    number: PHASES_CONFIG[6].id,
                     content: {
-                        raids: ["Руины Ан'Киража", "Храм Ан'Киража"],
+                        raids: ["Руины Ан'Киража (AQ20)", "Храм Ан'Киража (AQ40)"],
                         worldBosses: ["Остариус"],
                         worldEvents: ["Врата Ан'Киража"]
                     }
                 },
                 {
-                    number: 7,
-                    date: "3 Июля",
-                    realDate: new Date(2026, 6, 3),
+                    number: PHASES_CONFIG[7].id,
+                    content: {
+                        raids: ["Крепость Древобрюхов"]
+                    }
+                },
+                {
+                    number: PHASES_CONFIG[8].id,
                     content: {
                         raids: ["Наксрамас"],
                         worldBosses: ["Нерубианский Надзиратель"],
@@ -537,12 +617,9 @@
                     }
                 },
                 {
-                    number: 8,
-                    date: "25 Сентября",
-                    realDate: new Date(2026, 8, 25),
+                    number: PHASES_CONFIG[9].id,
                     content: {
-                        raids: ["Башня Каражана"],
-                        note: "Будет добавлено больше по мере продолжения разработки. Больше информации в нашей дорожной карте."
+                        raids: ["Башня Каражана"]
                     }
                 }
             ]
@@ -551,57 +628,54 @@
         const allContent = { en: contentEN, ru: contentRU };
         const timelineElement = document.getElementById('timeline');
         
-        // Определяем текущую фазу (зависит только от даты, а не от языка)
         const today = new Date();
         let currentPhaseNumber = 1;
 
-        // Используем realDate из любой структуры (они одинаковы)
-        for (let i = contentEN.phases.length - 1; i >= 0; i--) {
-            if (today >= contentEN.phases[i].realDate) {
-                currentPhaseNumber = contentEN.phases[i].number;
+        // Определяем текущую фазу по датам из конфига
+        for (let i = PHASES_CONFIG.length - 1; i >= 0; i--) {
+            if (today >= PHASES_CONFIG[i].dateObj) {
+                currentPhaseNumber = PHASES_CONFIG[i].id;
                 break;
             }
         }
         
-        /**
-         * Генерирует и вставляет HTML для фаз на основе выбранного языка.
-         * @param {string} lang - 'en' или 'ru'
-         */
         function renderTimeline(lang) {
             const data = allContent[lang];
             const sections = data.sections;
             
-            // 1. Очищаем контейнер
             timelineElement.innerHTML = ''; 
 
-            // 2. Рендерим заголовок и подвал
             document.getElementById('header-title').textContent = data.header;
             document.getElementById('header-subtitle').textContent = data.subtitle;
             document.getElementById('footer-note').innerHTML = data.note;
             document.documentElement.lang = lang;
             document.title = `${data.header} - Turtle WoW`;
 
-            // 3. Рендерим карточки фаз
-            data.phases.forEach(phase => {
+            data.phases.forEach((phaseContent, index) => {
+                // Получаем данные из конфига по индексу (порядок совпадает)
+                const configData = PHASES_CONFIG[index];
+
                 const card = document.createElement('div');
-                const isCurrent = phase.number === currentPhaseNumber;
-                const isFuture = today < phase.realDate;
+                const isCurrent = configData.id === currentPhaseNumber;
+                const isFuture = today < configData.dateObj;
                 card.className = `phase-card ${isCurrent ? 'current' : ''} ${isFuture ? 'future' : ''}`;
 
-                // Установка фонового изображения
-                card.style.backgroundImage = `url('img/phase_bg/phase-${phase.number}.jpg')`;
+                // Берем ID картинки из конфига
+                card.style.backgroundImage = `url('img/phase_bg/phase-${configData.imgId}.jpg')`;
                 card.style.backgroundSize = 'cover';
                 card.style.backgroundPosition = 'center';
 
+                // Выбираем дату в зависимости от языка
+                const displayDate = lang === 'ru' ? configData.dateRU : configData.dateEN;
+
                 let html = `
                     <div class="phase-header">
-                        <div class="phase-number">${data.phasePrefix} ${phase.number}</div>
-                        <div class="phase-date">${phase.date}</div>
+                        <div class="phase-number">${data.phasePrefix} ${configData.id}</div>
+                        <div class="phase-date">${displayDate}</div>
                         ${isCurrent ? `<div class="current-badge">${data.currentBadge}</div>` : ''}
                     </div>
                 `;
                 
-                // Функция для генерации секции контента
                 const generateSection = (key, title, list) => {
                     if (!list) return '';
                     return `
@@ -614,17 +688,14 @@
                     `;
                 };
 
-                // Добавление секций
-                html += generateSection('dungeons', sections.dungeons, phase.content.dungeons);
-                html += generateSection('raids', sections.raids, phase.content.raids);
-                html += generateSection('worldBosses', sections.worldBosses, phase.content.worldBosses);
-                html += generateSection('pvp', sections.pvp, phase.content.pvp);
-                html += generateSection('worldEvents', sections.worldEvents, phase.content.worldEvents);
+                html += generateSection('dungeons', sections.dungeons, phaseContent.content.dungeons);
+                html += generateSection('raids', sections.raids, phaseContent.content.raids);
+                html += generateSection('worldBosses', sections.worldBosses, phaseContent.content.worldBosses);
+                html += generateSection('pvp', sections.pvp, phaseContent.content.pvp);
+                html += generateSection('worldEvents', sections.worldEvents, phaseContent.content.worldEvents);
 
-                // Добавление специфической заметки для Phase 8
-                if (phase.content.note) {
-                    // Используем переведенную заметку из sections, если она есть, или из фазы (для Phase 8)
-                    const noteText = phase.content.note === contentEN.sections.note ? sections.note : phase.content.note;
+                if (phaseContent.content.note) {
+                    const noteText = phaseContent.content.note;
                     html += `
                         <div class="content-section">
                             <div style="color: #c9a86a; font-style: italic; font-size: 0.85em; margin-top: 10px;">
@@ -638,26 +709,18 @@
                 timelineElement.appendChild(card);
             });
             
-            // Обновляем состояние кнопок
             document.querySelectorAll('.lang-button').forEach(button => {
                 button.classList.remove('active');
                 if (button.dataset.lang === lang) {
                     button.classList.add('active');
-                    // Сохраняем в LocalStorage для запоминания выбора
                     localStorage.setItem('preferredLang', lang); 
                 }
             });
         }
         
-        // --- 2. Логика переключения ---
-
         document.addEventListener('DOMContentLoaded', () => {
             const switcher = document.querySelector('.language-switcher');
-            
-            // Получаем язык из LocalStorage или устанавливаем по умолчанию (ru)
             const initialLang = localStorage.getItem('preferredLang') || 'ru'; 
-            
-            // Инициализация
             renderTimeline(initialLang);
 
             switcher.addEventListener('click', (event) => {
@@ -669,10 +732,9 @@
                 }
             });
         });
-
     </script>
-
     <script>
+        // Старый скрипт фона оставил как есть
         (function () {
             const MAX_TRIES = 200; 
             function checkImage(url) {
@@ -694,11 +756,7 @@
                         break;
                     }
                 }
-
-                if (urls.length === 0) {
-                    return;
-                }
-
+                if (urls.length === 0) return;
                 const pick = urls[Math.floor(Math.random() * urls.length)];
                 const overlay = 'linear-gradient(135deg, rgba(26,26,26,0.6) 0%, rgba(45,24,16,0.6) 100%)';
                 document.body.style.backgroundImage = `${overlay}, url("${pick}")`;
@@ -707,9 +765,7 @@
                 document.body.style.backgroundRepeat = 'no-repeat';
                 document.body.style.backgroundAttachment = 'fixed';
             }
-            detectAndSetBackground().catch(err => {
-                // console.warn('bg loader error', err);
-            });
+            detectAndSetBackground().catch(err => {});
         })();
     </script>
 </body>
